@@ -1,0 +1,16 @@
+# IP Scanner
+# Can scan device and network IP addresses for ports in use and open
+
+import socket
+
+def port_scanner(target_ip, port_range):
+    for port in range(1, port_range):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket.setdefaulttimeout(1) # set timeout for each connection
+        result = s.connect_ex((target_ip, port))
+        if result == 0:
+            print(f"Port {port} is open")
+        s.close()
+
+IPaddress = input("Please input the IP you'd like scanned. ")
+port_scanner(f"{IPaddress}", 1094) # scan up to port 1024
