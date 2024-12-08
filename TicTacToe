@@ -1,0 +1,97 @@
+import time, sys, random
+
+def printBoard(board):
+    # Prints the current board.
+    print(board['top-L'] + '|' + board['top-M'] + '|' + board['top-R'])
+    print('---+---+---')
+    print(board['mid-L'] + '|' + board['mid-M'] + '|' + board['mid-R'])
+    print('---+---+---')
+    print(board['low-L'] + '|' + board['low-M'] + '|' + board['low-R'])
+
+def winningMove(board, mark):
+    # A list with tuples of all winning combinations.
+    winningConditions = [
+        ('top-L', 'top-M', 'top-R'),
+        ('mid-L', 'mid-M', 'mid-R'),
+        ('low-L', 'low-M', 'low-R'),
+        ('top-L', 'mid-L', 'low-L'),
+        ('top-M', 'mid-M', 'low-M'),
+        ('top-R', 'mid-R', 'low-R'),
+        ('top-L', 'mid-M', 'low-R'),
+        ('low-L', 'mid-M', 'top-R')
+    ]
+    for condition in winningConditions:
+        if all(board[cell] == mark for cell in condition):
+            return True
+    return False
+
+# Scores
+playerWin = 0
+tie = 0
+computerWin = 0
+
+try:
+    while True:
+        # Resetting the board for a new game
+        theBoard = {key: '   ' for key in 
+                    ['top-L', 'top-M', 'top-R', 'mid-L', 'mid-M', 'mid-R', 'low-L', 'low-M', 'low-R']}
+        turnMark = ' X '
+        remainingAvailableChoices = list(theBoard.keys())
+
+        # Deciding who goes first
+        print('Deciding who starts...')
+        time.sleep(1)
+        whosFirst = random.randint(0, 1)
+        if whosFirst == 0:
+            computerMark, playerMark = ' X ', ' O '
+            print('Computer starts.\n')
+        else:
+            playerMark, computerMark = ' X ', ' O '
+            print('Player starts.\n')
+        time.sleep(1)
+
+        for i in range(9):
+            printBoard(theBoard)
+            if turnMark == playerMark:
+                while True:
+                    print('Player\'s turn using the mark:', playerMark)
+                    choice = input('Valid moves: ' + str(remainingAvailableChoices) + '\n')
+                    if choice not in remainingAvailableChoices:
+                        print(f"{choice} is not a valid move.")
+                    else:
+                        break
+                theBoard[choice] = turnMark
+            else:
+                print('Computer\'s turn using the mark:', computerMark)
+                time.sleep(2)
+                choice = random.choice(remainingAvailableChoices)
+                theBoard[choice] = turnMark
+
+            remainingAvailableChoices.remove(choice)
+
+            if winningMove(theBoard, turnMark):
+                printBoard(theBoard)
+                if turnMark == playerMark:
+                    playerWin += 1
+                    print('Player wins!')
+                else:
+                    computerWin += 1
+                    print('Computer wins!')
+                print(f"Player: {playerWin} | Computer: {computerWin} | Ties: {tie}\n")
+                time.sleep(2)
+                break
+            elif i == 8:
+                printBoard(theBoard)
+                print('It is a tie!')
+                tie += 1
+                print(f"Player: {playerWin} | Computer: {computerWin} | Ties: {tie}\n")
+                time.sleep(2)
+
+            # Toggle turn
+            turnMark = ' O ' if turnMark == ' X ' else ' X '
+
+except KeyboardInterrupt:
+    print('\nQuitting game.\n')
+    print('Final score:')
+    print(f"Player: {playerWin} | Computer: {computerWin} | Ties: {tie}\n")
+    sys.exit()
