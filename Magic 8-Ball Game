@@ -1,0 +1,58 @@
+# Magic 8 Ball Program
+
+import random, time
+
+def magic_8_ball():
+    
+    confuse = '''It is decidedly so that your inquery is just as valid as it is logistic, but it is exponentially so in the inequivicable equation of the fact in the truth that will be quite some varied indeed. Does that answer your question?\n'''
+    stupid = str('How dare you ask me ' + question + ' and think you can get away with it. Shame, for shame on you!\n')
+    dumbAss = str('Concentrate, concentrate harder, even harder!!!' + '\n\nharder still!!!' + '.\n\n...\n.\n' + 'Uhhh,,' + "\nNope, you don't want the answer to your question enough.\n")
+    
+    answers = [
+    'It is incredibly and unfavourably certain.\n',
+    str(confuse),
+    'Oh yeah, for sure definitely, dontcha know.\n',
+    'Reply hazy, I got drunk last night, gimme a break, let me live my life, why you always ridin me for answers?\n',
+    'What a stupid question, very very stupid. Do you really think you deserve to know the answer? Too bad.\n',
+    stupid,
+    'How about NOOOOO!.. How about that?\n',
+    'Outlook not so good. Just like your face.\n',
+    'I sure doubt it. You are more likely to get hit by a plane.\n',
+    dumbAss]
+    answer = random.choice(answers)
+    print(f"Magic 8-ball says: ", end=" ")
+    time.sleep(1)
+    for char in answer:
+        print(char, end="", flush=True)
+        time.sleep(0.06)
+    print()
+
+print('Welcome to the Magic 8-ball.')
+time.sleep(1)
+print('I can answer questions about the past, present, or future.')
+time.sleep(1.5)
+print('What a wonderous power I provide!')
+time.sleep(1.5)
+while True:
+    question = input("Now, what is it you'd like to know? <type 'quit' to exit>: ")
+    if question.lower() == 'quit':
+        print("Goodbye for now! May your future be bright!")
+        break
+    elif question.strip() == "":
+        print("Good goin genius, you don't even know how to ask a question propah.")
+        time.sleep(1.5)
+    else:
+        print("Magic 8-ball go round and round.")
+        time.sleep(.5)
+        print('.')
+        time.sleep(.5)
+        print('. ...')
+        time.sleep(.5)
+        print("Magical power is flowing!")
+        time.sleep(1)
+        magic_8_ball()
+        
+
+#if __name__ == "__main__":
+    #magic_8_ball()
+
